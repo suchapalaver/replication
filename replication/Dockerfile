@@ -29,8 +29,8 @@ COPY . /app
 
 ENV PATH="/opt/venv/bin:$PATH"
 
-ENV OPENAI_API_KEY_FILE=.env
+ENV REPLICATE_API_TOKEN=.env
 
 EXPOSE 50051
 
-CMD ["python", "parsly.py"]
+CMD ["python", "replication.py"]

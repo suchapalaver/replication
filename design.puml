@@ -7,13 +7,13 @@ skinparam interface {
   BorderColor black
 }
 
-package "parsly" {
-  [parsly-ctl:\nCLI Rust client] <-up-> [parsly:\nPython gRPC messaging service and OpenAI client] : PDF data\nover gRPC
+package "replication" {
+  [replication-ctl:\nCLI Rust client] <-up-> [replication:\nPython gRPC messaging service and OpenAI client] : PDF data\nover gRPC
 }
 interface "\t\t\tOpenAI\n\t\t\tvia\n\t\t\tLlamaIndex" as OpenAI
-[parsly:\nPython gRPC messaging service and OpenAI client] <--right--> OpenAI
+[replication:\nPython gRPC messaging service and OpenAI client] <--right--> OpenAI
 
 interface "\t\t\tPDF with\n\t\t\ttabular data" as PDF
-[parsly-ctl:\nCLI Rust client] <--right-- PDF
+[replication-ctl:\nCLI Rust client] <--right-- PDF
 
 @enduml

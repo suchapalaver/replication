@@ -34,7 +34,7 @@ class Utils:
             new_pdf_file.write(new_pdf_buffer.read())
 
 class MessageServiceServicer(message_pb2_grpc.MessageServiceServicer):
-    def ProcessText(self, request, context):
+    def ProcessIntent(self, request, context):
         logging.info("Received request from gRPC client ...")
         logging.info("Creating PDF file to upload to agent ...")
         pdf_bytes = request.pdf_bytes
@@ -57,7 +57,7 @@ class MessageServiceServicer(message_pb2_grpc.MessageServiceServicer):
         return message_pb2.TextResponse(processed_content=response.response)
 
 def serve():
-    logging.info("Starting 'parsly' server. Listening on port 50051.")
+    logging.info("Starting 'replication' server. Listening on port 50051.")
     server = grpc.server(ThreadPoolExecutor(max_workers=10))
     message_pb2_grpc.add_MessageServiceServicer_to_server(
         MessageServiceServicer(), server

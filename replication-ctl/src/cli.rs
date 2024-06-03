@@ -1,8 +1,8 @@
 use clap::{Arg, Command};
 
 pub fn cli() -> Command {
-    Command::new("parsly-ctl")
-        .about("parsly-ctl: rust-powered parsly client")
+    Command::new("replication-ctl")
+        .about("replication-ctl: rust-powered replication client")
         .arg(
             Arg::new("port")
                 .long("port")

@@ -1,17 +1,18 @@
-# parsly
+# replication
 
-Parsly is a simple solution for extracting tabular data from PDFs and
+replication is a simple solution for extracting tabular data from PDFs and
 converting it to JSON using natural language processing. 
 
 The project consists of two primary components:
 
-- `parsly`: A [gRPC](https://grpc.io/) messaging service and OpenAI client implemented in Python.
-- `parsly-ctl`: A Rust client designed for loading data into `parsly` over gRPC.
+- `replication`: A [gRPC](https://grpc.io/) messaging service and [Replicate](https://replicate.com/)
+  client implemented in Python.
+- `replication-ctl`: A Rust client designed for loading data into `replication` over gRPC.
 
-![`parsly` design diagram](design.svg)
+![`replication` design diagram](design.svg)
 
 Equipped with built-in Docker support and a Makefile for streamlined development
-and deployment, Parsly serves as a proof of concept for deploying AI agents on
+and deployment, `replication` serves as a proof of concept for deploying AI agents on
 orchestration infrastructure, such as Kubernetes.
 
 ## Installation
@@ -19,20 +20,20 @@ orchestration infrastructure, such as Kubernetes.
 ### Clone the Repository:
 
 ```terminal
-git clone https://github.com/balanced-livc/parsly.git
-cd parsly
+git clone https://github.com/suchapalaver/replication.git
+cd replication
 ```
 
-### Set Up OpenAI API Key:
+### Set Up Replicate API Key:
 
-- Obtain an API key from OpenAI.
+- Obtain an API key from [Replicate](https://replicate.com/).
 - Create a `.env` file in the project root, the same directory as this README:
 
 ```env
-OPENAI_API_KEY=your_openai_api_key_here
+REPLICATE_API_TOKEN=<paste-your-token-here>
 ```
 
-Replace `your_openai_api_key_here` with your actual OpenAI API key.
+Find your API token in [your account settings](https://replicate.com/account/api-tokens).
 
 ## Getting Started
 
@@ -43,9 +44,9 @@ local machine for development and testing purposes.
 
 - Docker
 - Make (optional, but recommended for using the Makefile)
-- [Rust and Cargo](https://www.rust-lang.org/tools/install) (for running the `parsly-ctl` Rust client)
+- [Rust and Cargo](https://www.rust-lang.org/tools/install) (for running the `replication-ctl` Rust client)
 
-### Building and Running the Docker Container (`parsly` App)
+### Building and Running the Docker Container (`replication` App)
 
 #### Build the Docker image:
 
@@ -53,7 +54,7 @@ local machine for development and testing purposes.
 make build
 ```
 
-This command builds the Docker image for the Parsly app.
+This command builds the Docker image for the replication app.
 
 #### Run the Docker container:
 
@@ -61,13 +62,13 @@ This command builds the Docker image for the Parsly app.
 make run
 ```
 
-This command starts the Docker container, and your Parsly app's gRPC service
+This command starts the Docker container, and your replication app's gRPC service
 will be accessible at [http://localhost:50051](http://localhost:50051).
 
 If things work, you should see this in your terminal:
 
 ```terminal
-Starting 'parsly' server. Listening on port 50051.
+Starting 'replication' server. Listening on port 50051.
 ```
 
 #### Clean up:
@@ -87,29 +88,29 @@ commands:
 #### Build the Docker image:
 
 ```terminal
-docker build -t parsly-image .
+docker build -t replication-image .
 ```
 
 #### Run the Docker container:
 
 ```terminal
-docker run -it -p 50051:50051 --env-file .env parsly-image
+docker run -it -p 50051:50051 --env-file .env replication-image
 ```
 
 #### Clean up:
 
 ```terminal
-docker stop $$(docker ps -aq --filter ancestor=parsly-image) || true
-docker rm $$(docker ps -aq --filter ancestor=parsly-image) || true
-docker rmi parsly-image || true
+docker stop $$(docker ps -aq --filter ancestor=replication-image) || true
+docker rm $$(docker ps -aq --filter ancestor=replication-image) || true
+docker rmi replication-image || true
 ```
 
-## Running the Rust Client (`parsly-ctl`)
+## Running the Rust Client (`replication-ctl`)
 
-### Navigate to parsly-ctl directory:
+### Navigate to replication-ctl directory:
 
 ```bash
-cd parsly-ctl
+cd replication-ctl
 ```
 
 ### See the CLI Help Menu
@@ -124,16 +125,16 @@ cargo run -- --help
 cargo run
 ```
 
-This command compiles and runs the `parsly-ctl` Rust client, sending a
-request to the `parsly` app's gRPC service.
+This command compiles and runs the `replication-ctl` Rust client, sending a
+request to the `replication` app's gRPC service.
 
-By default, `parsly-ctl` listens for the `parsly` gRPC service on port
+By default, `replication-ctl` listens for the `replication` gRPC service on port
 `50051`, and uses data from the `table.pdf` test file.
 
 Using the default `table.pdf` file, you should output like this:
 
 ```terminal
-Received from 'parsly' via OpenAI:
+Received from 'replication' via OpenAI:
 
 {
   "table": [
@@ -175,5 +176,4 @@ Received from 'parsly' via OpenAI:
     }
   ]
 }
-
 ```

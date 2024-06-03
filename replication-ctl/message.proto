@@ -3,7 +3,7 @@ syntax = "proto3";
 package message;
 
 service MessageService {
-    rpc ProcessText(BinaryRequest) returns (TextResponse);
+    rpc ProcessIntent(BinaryRequest) returns (TextResponse);
 }
 
 message BinaryRequest {

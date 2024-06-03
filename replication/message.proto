@@ -3,11 +3,11 @@ syntax = "proto3";
 package message;
 
 service MessageService {
-    rpc ProcessText(BinaryRequest) returns (TextResponse);
+    rpc ProcessIntent(TextRequest) returns (TextResponse);
 }
 
-message BinaryRequest {
-    bytes pdf_bytes = 2;
+message TextRequest {
+    string intent = 1;
 }
 
 message TextResponse {

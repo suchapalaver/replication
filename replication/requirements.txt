@@ -4,3 +4,4 @@ llama-index
 protobuf
 pypdf
 PyPDF2
+replicate

@@ -1,60 +1,44 @@
 import grpc
+import replicate
 import logging
 import message_pb2
 import message_pb2_grpc
-import os
-import PyPDF2
 import sys
 from concurrent.futures import ThreadPoolExecutor
-from io import BytesIO
-from llama_index import VectorStoreIndex, SimpleDirectoryReader
 
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 
-class Utils:
-    @staticmethod
-    def create_pdf_from_bytes(pdf_bytes):
-        pdf_writer = PyPDF2.PdfWriter()
-        buffer = BytesIO(pdf_bytes)
-        pdf_reader = PyPDF2.PdfReader(buffer)
-
-        for page_num in range(len(pdf_reader.pages)):
-            pdf_writer.add_page(pdf_reader.pages[page_num])
-        
-        new_pdf_buffer = BytesIO()
-        pdf_writer.write(new_pdf_buffer)
-        new_pdf_buffer.seek(0)
-
-        data_folder = 'data'
-        file_path = os.path.join(data_folder, 'file.pdf')
-
-        os.makedirs(data_folder, exist_ok=True)
-
-        with open(file_path, 'wb') as new_pdf_file:
-            new_pdf_file.write(new_pdf_buffer.read())
 
 class MessageServiceServicer(message_pb2_grpc.MessageServiceServicer):
     def ProcessIntent(self, request, context):
         logging.info("Received request from gRPC client ...")
-        logging.info("Creating PDF file to upload to agent ...")
-        pdf_bytes = request.pdf_bytes
-        Utils.create_pdf_from_bytes(pdf_bytes)
 
-        logging.info("Loading PDF file into LlamaIndex ...")
-        documents = SimpleDirectoryReader("data").load_data()
-        index = VectorStoreIndex.from_documents(documents)
+        intent = request.intent
 
-        query_engine = index.as_query_engine()
-        logging.info("Issuing query to OpenAI ...")
-        response = query_engine.query("""
-                                      If you find tables in the PDF file, 
-                                      please parse them and return the data as a JSON object. 
-                                      Only return the JSON object as your response without writing anything else other than the JSON
-                                      """
-                                    )
-        
+        logging.info("Loading Intent into 'stability-ai/sdxl' ...")
+
+        output = replicate.run(
+            "stability-ai/sdxl:7762fd07cf82c948538e41f63f77d685e02b063e37e496e96eefd46c929f9bdc",
+            input={
+                "width": 768,
+                "height": 768,
+                "prompt": intent,
+                "refine": "expert_ensemble_refiner",
+                "scheduler": "K_EULER",
+                "lora_scale": 0.6,
+                "num_outputs": 1,
+                "guidance_scale": 7.5,
+                "apply_watermark": False,
+                "high_noise_frac": 0.8,
+                "negative_prompt": "",
+                "prompt_strength": 0.8,
+                "num_inference_steps": 25,
+            },
+        )
+
         logging.info("Returning response to gRPC client ...")
-        return message_pb2.TextResponse(processed_content=response.response)
+        return message_pb2.ReplicateResponse(img_urls=output)
+
 
 def serve():
     logging.info("Starting 'replication' server. Listening on port 50051.")
@@ -62,9 +46,10 @@ def serve():
     message_pb2_grpc.add_MessageServiceServicer_to_server(
         MessageServiceServicer(), server
     )
-    server.add_insecure_port('[::]:50051')
+    server.add_insecure_port("[::]:50051")
     server.start()
     server.wait_for_termination()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     serve()

@@ -1,5 +1,9 @@
 # replication
 
+.DS_Store
+.vscode/
+replication-ctl/received_image.png
+
 ## Environment variables
 replication/.env
 

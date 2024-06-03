@@ -1,7 +1,6 @@
 grpcio
 grpcio-tools
-llama-index
+pillow
 protobuf
-pypdf
-PyPDF2
 replicate
+requests

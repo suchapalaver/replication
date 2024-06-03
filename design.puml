@@ -8,12 +8,12 @@ skinparam interface {
 }
 
 package "replication" {
-  [replication-ctl:\nCLI Rust client] <-up-> [replication:\nPython gRPC messaging service and OpenAI client] : PDF data\nover gRPC
+  [replication-ctl:\nCLI Rust client] <-up-> [replication:\nPython gRPC messaging service and Replicate client]
 }
-interface "\t\t\tOpenAI\n\t\t\tvia\n\t\t\tLlamaIndex" as OpenAI
-[replication:\nPython gRPC messaging service and OpenAI client] <--right--> OpenAI
+interface "\t\t\tReplicate" as Replicate
+[replication:\nPython gRPC messaging service and Replicate client] <--right--> Replicate
 
-interface "\t\t\tPDF with\n\t\t\ttabular data" as PDF
-[replication-ctl:\nCLI Rust client] <--right-- PDF
+interface "\t\t\tIntent message" as Intent
+[replication-ctl:\nCLI Rust client] <--right-- Intent
 
 @enduml

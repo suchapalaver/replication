@@ -3,13 +3,13 @@ syntax = "proto3";
 package message;
 
 service MessageService {
-    rpc ProcessIntent(TextRequest) returns (TextResponse);
+    rpc ProcessIntent(TextRequest) returns (ReplicateResponse);
 }
 
 message TextRequest {
     string intent = 1;
 }
 
-message TextResponse {
-    string processed_content = 1;
+message ReplicateResponse {
+    repeated string img_urls = 1;
 }

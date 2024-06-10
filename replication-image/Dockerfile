@@ -15,8 +15,8 @@ COPY requirements.txt .
 RUN pip install --upgrade pip && \
     pip install -r requirements.txt
 
-COPY message.proto .
-RUN python3 -m grpc_tools.protoc -I . --python_out=. --grpc_python_out=. message.proto
+COPY image.proto .
+RUN python3 -m grpc_tools.protoc -I . --python_out=. --grpc_python_out=. image.proto
 
 FROM python:3.9-slim
 
@@ -33,4 +33,4 @@ ENV REPLICATE_API_TOKEN=.env
 
 EXPOSE 50051
 
-CMD ["python", "replication.py"]
+CMD ["python", "replication-image.py"]

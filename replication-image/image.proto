@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package image;
+
+service ImageService {
+    rpc ProcessIntent(ImageRequest) returns (ImageResponse);
+}
+
+message ImageRequest {
+    string intent = 1;
+}
+
+message ImageResponse {
+    repeated string img_urls = 1;
+}

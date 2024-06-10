@@ -1,11 +1,11 @@
 mod cli;
 use crate::cli::cli;
 
-pub mod message {
-    tonic::include_proto!("message");
+pub mod image_svc {
+    tonic::include_proto!("image");
 }
 
-use message::{message_service_client::MessageServiceClient, TextRequest};
+use image_svc::{image_service_client::ImageServiceClient, ImageRequest};
 use tonic::{transport::Endpoint, Request};
 
 #[tokio::main]
@@ -15,11 +15,11 @@ async fn main() -> Result<(), anyhow::Error> {
     let endpoint: Endpoint =
         format!("http://[::]:{}", matches.get_one::<String>("port").unwrap()).try_into()?;
 
-    let mut client = MessageServiceClient::connect(endpoint).await?;
+    let mut client = ImageServiceClient::connect(endpoint).await?;
 
     let intent = matches.get_one::<String>("intent").unwrap().to_owned();
 
-    let request = Request::new(TextRequest { intent });
+    let request = Request::new(ImageRequest { intent });
 
     println!("\nSending request to 'replication' ...");
 

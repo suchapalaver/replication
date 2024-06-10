@@ -1,17 +1,17 @@
 import grpc
 import replicate
 import logging
-import message_pb2
-import message_pb2_grpc
+import image_pb2
+import image_pb2_grpc
 import sys
 from concurrent.futures import ThreadPoolExecutor
 
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 
 
-class MessageServiceServicer(message_pb2_grpc.MessageServiceServicer):
+class ImageServiceServicer(image_pb2_grpc.ImageServiceServicer):
     def ProcessIntent(self, request, context):
-        logging.info("Received request from gRPC client ...")
+        logging.info("Image service received request from gRPC client ...")
 
         intent = request.intent
 
@@ -37,14 +37,14 @@ class MessageServiceServicer(message_pb2_grpc.MessageServiceServicer):
         )
 
         logging.info("Returning response to gRPC client ...")
-        return message_pb2.ReplicateResponse(img_urls=output)
+        return image_pb2.ImageResponse(img_urls=output)
 
 
 def serve():
-    logging.info("Starting 'replication' server. Listening on port 50051.")
+    logging.info("Starting 'replication-image' server. Listening on port 50051.")
     server = grpc.server(ThreadPoolExecutor(max_workers=10))
-    message_pb2_grpc.add_MessageServiceServicer_to_server(
-        MessageServiceServicer(), server
+    image_pb2_grpc.add_ImageServiceServicer_to_server(
+        ImageServiceServicer(), server
     )
     server.add_insecure_port("[::]:50051")
     server.start()

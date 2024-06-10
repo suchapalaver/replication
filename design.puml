@@ -8,10 +8,10 @@ skinparam interface {
 }
 
 package "replication" {
-  [replication-ctl:\nCLI Rust client] <-up-> [replication:\nPython gRPC messaging service and Replicate client]
+  [replication-ctl:\nCLI Rust client] <-up-> [replication-image:\nPython gRPC messaging service and Replicate client]
 }
 interface "\t\t\tReplicate" as Replicate
-[replication:\nPython gRPC messaging service and Replicate client] <--right--> Replicate
+[replication-image:\nPython gRPC messaging service and Replicate client] <--right--> Replicate
 
 interface "\t\t\tIntent message" as Intent
 [replication-ctl:\nCLI Rust client] <--right-- Intent

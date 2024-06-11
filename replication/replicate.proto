@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package replicate;
+
+service ReplicateService {
+    rpc ProcessIntent(ReplicateRequest) returns (ReplicateResponse);
+}
+
+message ReplicateRequest {
+    string model = 1;
+
+    string input = 2;
+}
+
+message ReplicateResponse {
+    repeated string payload = 1;
+}

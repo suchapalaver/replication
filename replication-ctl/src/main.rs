@@ -1,11 +1,11 @@
 mod cli;
 use crate::cli::cli;
 
-pub mod image_svc {
-    tonic::include_proto!("image");
+pub mod replicate {
+    tonic::include_proto!("replicate");
 }
 
-use image_svc::{image_service_client::ImageServiceClient, ImageRequest};
+use replicate::{replicate_service_client::ReplicateServiceClient, ReplicateRequest};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use tonic::transport::Endpoint;
@@ -16,9 +16,9 @@ struct IntentConfig {
     input: Value,
 }
 
-impl From<IntentConfig> for ImageRequest {
+impl From<IntentConfig> for ReplicateRequest {
     fn from(IntentConfig { model, input }: IntentConfig) -> Self {
-        ImageRequest {
+        ReplicateRequest {
             model,
             input: input.to_string(),
         }
@@ -31,20 +31,20 @@ async fn main() -> Result<(), anyhow::Error> {
 
     let file = std::fs::read_to_string(matches.get_one::<String>("intent").unwrap())?;
 
-    let request: ImageRequest = serde_yml::from_str::<IntentConfig>(&file)?.into();
+    let request: ReplicateRequest = serde_yml::from_str::<IntentConfig>(&file)?.into();
 
     let endpoint: Endpoint =
         format!("http://[::]:{}", matches.get_one::<String>("port").unwrap()).try_into()?;
 
-    let mut client = ImageServiceClient::connect(endpoint).await?;
+    let mut client = ReplicateServiceClient::connect(endpoint).await?;
 
-    println!("\nSending request to replication image service ...");
+    println!("\nSending request to replicate service ...");
 
     let response = client.process_intent(request).await?.into_inner();
 
-    let img_urls = response.img_urls;
+    let payload = response.payload;
 
-    if let Some(url) = img_urls.get(0) {
+    if let Some(url) = payload.get(0) {
         // Download the image data from the first URL
         let image_data = reqwest::get(url).await?.bytes().await?;
 
@@ -56,7 +56,7 @@ async fn main() -> Result<(), anyhow::Error> {
         println!("No URLs received in the response.");
     }
 
-    println!("\nReceived image response from 'replication' via Replicate:\n");
+    println!("\nReceived response from 'replication' via Replicate:\n");
 
     Ok(())
 }

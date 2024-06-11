@@ -15,8 +15,8 @@ COPY requirements.txt .
 RUN pip install --upgrade pip && \
     pip install -r requirements.txt
 
-COPY image.proto .
-RUN python3 -m grpc_tools.protoc -I . --python_out=. --grpc_python_out=. image.proto
+COPY replicate.proto .
+RUN python3 -m grpc_tools.protoc -I . --python_out=. --grpc_python_out=. replicate.proto
 
 FROM python:3.9-slim
 
@@ -35,4 +35,4 @@ ARG PORT
 
 ENV PORT=${PORT}
 
-CMD ["python", "replication-image.py"]
+CMD ["python", "replication.py"]

@@ -4,7 +4,7 @@ replication is a simple app for generating images from text using natural langua
 
 The project consists of two primary components:
 
-- `replication-image`: A [gRPC](https://grpc.io/) messaging service and [Replicate](https://replicate.com/)
+- `replication`: A [gRPC](https://grpc.io/) messaging service and [Replicate](https://replicate.com/)
   client implemented in Python.
 - `replication-ctl`: A Rust client designed for loading Intents into `replication` over gRPC.
 
@@ -67,7 +67,7 @@ will be accessible at [http://localhost:50051](http://localhost:50051).
 If things work, you should see this in your terminal:
 
 ```terminal
-Starting 'replication-image' server. Listening on port 50051.
+Starting 'replication' server. Listening on port 50051.
 ```
 
 #### Clean up:

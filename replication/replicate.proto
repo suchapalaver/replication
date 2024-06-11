@@ -10,8 +10,14 @@ message ReplicateRequest {
     string model = 1;
 
     string input = 2;
+
+    string input_type = 3;
+
+    string output_type = 4;
 }
 
 message ReplicateResponse {
     repeated string payload = 1;
+
+    string output_type = 2;
 }

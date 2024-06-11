@@ -7,7 +7,9 @@ service ImageService {
 }
 
 message ImageRequest {
-    string intent = 1;
+    string model = 1;
+
+    string input = 2;
 }
 
 message ImageResponse {

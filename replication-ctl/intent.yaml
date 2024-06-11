@@ -1,0 +1,16 @@
+model: |
+  [your_model_here]
+input:
+  width: [your_width_here]
+  height: [your_height_here]
+  prompt: [your_prompt_here]
+  refine: [your_refine_here]
+  scheduler: [your_scheduler_here]
+  lora_scale: [your_lora_scale_here]
+  num_outputs: [your_num_outputs_here]
+  guidance_scale: [your_guidance_scale_here]
+  apply_watermark: [your_apply_watermark_here]
+  high_noise_frac: [your_high_noise_frac_here]
+  negative_prompt: [your_negative_prompt_here]
+  prompt_strength: [your_prompt_strength_here]
+  num_inference_steps: [your_num_inference_steps_here]

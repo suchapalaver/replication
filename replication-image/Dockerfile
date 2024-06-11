@@ -31,6 +31,8 @@ ENV PATH="/opt/venv/bin:$PATH"
 
 ENV REPLICATE_API_TOKEN=.env
 
-EXPOSE 50051
+ARG PORT
+
+ENV PORT=${PORT}
 
 CMD ["python", "replication-image.py"]

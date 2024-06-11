@@ -14,7 +14,7 @@ pub fn cli() -> Command {
             Arg::new("intent")
                 .long("intent")
                 .num_args(1)
-                .required(true)
-                .help("Message to be passed to the model"),
+                .default_value("./intent.yaml")
+                .help("Intent configuration, including prompt, model, and other parameters"),
         )
 }

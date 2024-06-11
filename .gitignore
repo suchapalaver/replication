@@ -2,7 +2,7 @@
 
 .DS_Store
 .vscode/
-replication-ctl/received_image.png
+*.png
 
 ## Environment variables
 replication/.env
@@ -25,6 +25,3 @@ replication/venv/
 
 # replication-ctl
 replication-ctl/target/
-
-## test report data
-replication-ctl/BLFWD-*.pdf

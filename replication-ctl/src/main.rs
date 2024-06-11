@@ -6,22 +6,39 @@ pub mod image_svc {
 }
 
 use image_svc::{image_service_client::ImageServiceClient, ImageRequest};
-use tonic::{transport::Endpoint, Request};
+use serde::{Deserialize, Serialize};
+use serde_json::Value;
+use tonic::transport::Endpoint;
+
+#[derive(Debug, Serialize, Deserialize)]
+struct IntentConfig {
+    model: String,
+    input: Value,
+}
+
+impl From<IntentConfig> for ImageRequest {
+    fn from(IntentConfig { model, input }: IntentConfig) -> Self {
+        ImageRequest {
+            model,
+            input: input.to_string(),
+        }
+    }
+}
 
 #[tokio::main]
 async fn main() -> Result<(), anyhow::Error> {
     let matches = cli().get_matches();
+
+    let file = std::fs::read_to_string(matches.get_one::<String>("intent").unwrap())?;
+
+    let request: ImageRequest = serde_yml::from_str::<IntentConfig>(&file)?.into();
 
     let endpoint: Endpoint =
         format!("http://[::]:{}", matches.get_one::<String>("port").unwrap()).try_into()?;
 
     let mut client = ImageServiceClient::connect(endpoint).await?;
 
-    let intent = matches.get_one::<String>("intent").unwrap().to_owned();
-
-    let request = Request::new(ImageRequest { intent });
-
-    println!("\nSending request to 'replication' ...");
+    println!("\nSending request to replication image service ...");
 
     let response = client.process_intent(request).await?.into_inner();
 

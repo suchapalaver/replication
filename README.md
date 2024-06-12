@@ -1,6 +1,16 @@
 # replication
 
-replication is a simple app for generating images from text using natural language processing. 
+replication is a simple app for generating images from text using natural language processing.
+
+## Purpose
+
+The goal of this project is to explore the deployment of multiple AI agents capable of interacting
+with each other, with a design suitable for container clusters. Currently, replication supports
+two models: one that generates an image from a text prompt, and another that reads an image via URL
+to provide text feedback. The aim is to investigate image generation filtered by feedback from one
+language model, which comments on and critiques the output of another.
+
+## Design
 
 The project consists of two primary components:
 
@@ -61,10 +71,12 @@ This command builds the Docker image for the replication app.
 make run
 ```
 
-This command starts the Docker container, and your replication app's gRPC service
-will be accessible at [http://localhost:50051](http://localhost:50051).
+This command starts the Docker container.
 
-If things work, you should see this in your terminal:
+By default, `replication-ctl` listens for the `replication` gRPC service on port
+`50051`. Your replication app's gRPC service should be accessible at [http://localhost:50051](http://localhost:50051).
+
+If things work, and you're using default settings, you should see this in your terminal:
 
 ```terminal
 Starting 'replication' server. Listening on port 50051.
@@ -96,11 +108,8 @@ cargo run -- --help
 ### Build and Run the Rust Client:
 
 ```bash
-cargo run -- --intent "an iguana on the beach, pointillism"
+cargo run -- --models sdxl.yaml llava.yaml
 ```
 
 This command compiles and runs the `replication-ctl` Rust client, sending a
 request to the `replication` app's gRPC service.
-
-By default, `replication-ctl` listens for the `replication` gRPC service on port
-`50051`. Not providing an `--intent` string input will cause an error.

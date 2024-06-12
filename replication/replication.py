@@ -28,7 +28,7 @@ class ReplicateServiceServicer(replicate_pb2_grpc.ReplicateServiceServicer):
 
         logging.info("Returning response to gRPC client ...")
         return replicate_pb2.ReplicateResponse(
-            payload=output, output_type=request.output_type
+            payload=output, output_type=request.output_type, iteration=request.iteration
         )
 
 

@@ -22,7 +22,9 @@ async fn main() -> Result<(), anyhow::Error> {
         format!("http://[::]:{}", matches.get_one::<String>("port").unwrap()).try_into()?;
     let mut client = ReplicateServiceClient::connect(endpoint).await?;
 
-    let file = fs::read_to_string(matches.get_one::<String>("intent").unwrap())?;
+    let configs: Vec<String> = matches.get_many("models").unwrap().cloned().collect();
+
+    let file: String = fs::read_to_string(configs[0].clone())?;
     let mut request: ReplicateRequest = serde_yml::from_str::<IntentConfig>(&file)?.into();
 
     // For now, envisioning three iterations - the initial request, a follow-up request based on the first response,
@@ -54,7 +56,7 @@ async fn main() -> Result<(), anyhow::Error> {
                 println!("\nReceived image saved as {write_path}");
 
                 if iterations < 2 {
-                    let file = fs::read_to_string("./llava.yaml").unwrap();
+                    let file = fs::read_to_string(configs[1].clone()).unwrap();
                     let mut image_reader_config = serde_yml::from_str::<IntentConfig>(&file)?;
 
                     let input = {

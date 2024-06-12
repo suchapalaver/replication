@@ -11,10 +11,10 @@ pub fn cli() -> Command {
                 .help("Port on which to listen"),
         )
         .arg(
-            Arg::new("intent")
-                .long("intent")
-                .num_args(1)
-                .default_value("./intent.yaml")
-                .help("Intent configuration, including prompt, model, and other parameters"),
+            Arg::new("models")
+                .long("models")
+                .num_args(2)
+                .default_values(["./sdxl.yaml", "./llava.yaml"])
+                .help("Input configurations, including prompts, models, and other parameters. See sdxl.yaml and llava.yaml for examples"),
         )
 }

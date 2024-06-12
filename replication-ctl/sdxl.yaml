@@ -1,0 +1,19 @@
+model: |
+  stability-ai/sdxl:7762fd07cf82c948538e41f63f77d685e02b063e37e496e96eefd46c929f9bdc
+input:
+  width: 768
+  height: 768
+  prompt: |
+    [your_prompt_here]
+  refine: expert_ensemble_refiner
+  scheduler: K_EULER
+  lora_scale: 0.6
+  num_outputs: 1
+  guidance_scale: 7.5
+  apply_watermark: false
+  high_noise_frac: 0.8
+  negative_prompt: ""
+  prompt_strength: 0.8
+  num_inference_steps: 25
+input_type: text
+output_type: image

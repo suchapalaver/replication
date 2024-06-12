@@ -1,0 +1,19 @@
+model: |
+  yorickvp/llava-13b:b5f6212d032508382d61ff00469ddda3e32fd8a0e75dc39d8a4191bb742157fb
+input:
+  image: ""
+  prompt: |
+    "Your job is to ensure the image shown to you satisfies an essential condition. \
+    If the image does not include the essential condition, \
+    write a prompt to produce an image that has the same qualtiies as the one shown to you, \
+    but making sure that it will, when generated according to your new prompt, satisfy the condition, \
+    while remaining as close as possible to the original image. \
+    If no changes are required simply provide a prompt that would generate an equivalent image to the one shown to you. \
+    Make sure to emphasize in the prompt the utmost importance of the essential condition. \
+    And make sure that the prompt will be able to generate an image that satisfies the essential condition, \
+    while remaining as close as possible to the original image. \
+    In this case, it is essential that the image depicts the following essential condition: "
+  condition: |
+    [your_condition_here]
+input_type: image # text or image
+output_type: text # text or image

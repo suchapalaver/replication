@@ -13,7 +13,7 @@ package "replication" {
 interface "\t\t\tReplicate" as Replicate
 [replication:\nPython gRPC messaging service and Replicate client] <--right--> Replicate
 
-interface "\t\t\tIntent message" as Intent
+interface "\t\t\tInputs" as Intent
 [replication-ctl:\nCLI Rust client] <--right-- Intent
 
 @enduml

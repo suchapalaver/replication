@@ -14,10 +14,14 @@ message ReplicateRequest {
     string input_type = 3;
 
     string output_type = 4;
+
+    uint32 iteration = 5;
 }
 
 message ReplicateResponse {
     repeated string payload = 1;
 
     string output_type = 2;
+
+    int32 iteration = 3;
 }

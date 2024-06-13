@@ -15,7 +15,7 @@ language model, which comments on and critiques the output of another.
 For reference, the two models in mind for the current iteration of this project are:
 
 - [`stability-ai/sdxl:7762fd07cf82c948538e41f63f77d685e02b063e37e496e96eefd46c929f9bdc`](https://replicate.com/stability-ai/sdxl/versions/7762fd07cf82c948538e41f63f77d685e02b063e37e496e96eefd46c929f9bdc?prediction=dn9dzqx64xrgj0cfvy1re1cnp4)
-- ['yorickvp/llava-13b'](https://replicate.com/yorickvp/llava-13b)
+- [`yorickvp/llava-13b`](https://replicate.com/yorickvp/llava-13b)
 
 But the design *should* support support easily switching in other equivalent models.  
 

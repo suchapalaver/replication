@@ -10,6 +10,15 @@ two models: one that generates an image from a text prompt, and another that rea
 to provide text feedback. The aim is to investigate image generation filtered by feedback from one
 language model, which comments on and critiques the output of another.
 
+## Models
+
+For reference, the two models in mind for the current iteration of this project are:
+
+- [`stability-ai/sdxl:7762fd07cf82c948538e41f63f77d685e02b063e37e496e96eefd46c929f9bdc`](https://replicate.com/stability-ai/sdxl/versions/7762fd07cf82c948538e41f63f77d685e02b063e37e496e96eefd46c929f9bdc?prediction=dn9dzqx64xrgj0cfvy1re1cnp4)
+- ['yorickvp/llava-13b'](https://replicate.com/yorickvp/llava-13b)
+
+But the design *should* support support easily switching in other equivalent models.  
+
 ## Design
 
 The project consists of two primary components:
